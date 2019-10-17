@@ -1,0 +1,65 @@
+@layout('layouts.main')
+
+@section('title')
+JobPostr - Post your Job
+@endsection
+
+@section('extracss')
+{{ style('forms') }}
+@endsection
+
+@section('content')
+  <h1>Post a Job</h1>
+
+
+  <div class="job-container">
+    @if(flashMessage('message'))
+        <span>{{ flashMessage('message') }}</span>
+    @endif
+        <form action="{{ route('JobController.create') }}" method="POST">
+          {{ csrfField() }}
+  
+          <label for="title">Job Title</label>
+          <input type="text" name="title" value="{{ old('title', '') }}">
+          @if(hasErrorFor('title'))
+              <span>
+                  {{ getErrorFor('title') }}
+              </span>
+          @endif
+  
+          <label for="link">Link URL</label>
+          <input type="text" name="link" value="{{ old('link', '') }}">
+          @if(hasErrorFor('link'))
+              <span>
+                  {{ getErrorFor('link') }}
+              </span>
+          @endif
+  
+          <label for="description">Description</label>
+          <input type="text" name="description">
+          @if(hasErrorFor('description'))
+              <span>
+                  {{ getErrorFor('description') }}
+              </span>
+          @endif
+  
+          <button type="submit">Submit a Job</button>
+        </form>
+    </div>
+
+<h2>My jobs</h2>
+
+  @each(job in jobs)
+  <div class="job-container2">
+    <div class="blank"></div>
+    <div class="job-info">
+      <h3><a href="{{ job.link }}">{{ job.title }}</a></h3>
+      <p>{{ job.description }}</p>
+      <ul>
+          <li><a href="{{ route('JobController.delete', { id: job.id }) }}">Delete</a></li>
+          <li><a href="{{ route('JobController.edit', { id: job.id }) }}">Edit</a></li>
+      </ul>
+    </div>
+  </div>
+  @endeach
+@endsection

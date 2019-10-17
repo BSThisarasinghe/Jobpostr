@@ -1,0 +1,18 @@
+@layout('layouts.main')
+
+@section('title')
+JobPostr - Post your Jobs 
+@endsection
+
+@section('content')
+  <h1>All Jobs</h1>
+@each(job in jobs)
+  <div class="job-container">
+    <div class="blank"></div>
+    <div class="job-info">
+    <h3><a href="{{ job.link }}"></a>{{ job.title }}</h3>
+    <p>{{ job.description }}</p>
+    </div>
+  </div>
+@endeach
+@endsection
